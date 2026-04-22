@@ -9,21 +9,22 @@ class Scraper:
         self.url = url  
 
     def collecter(self):
-        """"Collecte les articles du site et retourne une liste d'articles."""
+        """"Collecte les articles du site via le flux RSS"""
         articles = []
         try:
-            response = requests.get(self.url,timeout=6)
-            soup = BeautifulSoup(response.text, 'html.parser')
-            titres=soup.find_all("a")
+            response = requests.get(self.url, headers= {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}, timeout=60)
+            soup = BeautifulSoup(response.content, "xml")
+            items=soup.find_all("item")
 
-            for tag in titres:
-                titre = tag.get_text(strip=True)
-                lien = tag.get("href", "")
-                if titre and lien.startswith("http"):
-                    articles.append(Article(titre, lien, self.nom_source))
-
+            for item in items:
+                titre = item.find("title")
+                lien = item.find("guid")
+                if titre and lien:
+                    articles.append(Article(
+                        titre.get_text(strip=True),
+                        lien.get_text(strip=True),
+                        self.nom_source
+                    ))
+            return articles
         except requests.exceptions.RequestException as e:
                             print(f"Erreur de connexion sur {self.nom_source} : {e}")
-        return articles
-
-                

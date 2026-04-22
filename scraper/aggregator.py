@@ -22,11 +22,11 @@ class Aggregator:
 
     def filtrer(self):
         """Retourne les articles contenant un mot-clé."""
-        resultat = []
+        resultats = []
         for article in self.articles:
             titre_lower = article.titre.lower()
             for mot in self.mots_cles:
                 if mot in titre_lower:
-                    resultat.append(article)
+                    resultats.append(article)
                     break
-                    return resultat 
+        return resultats
