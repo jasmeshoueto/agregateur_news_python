@@ -6,5 +6,5 @@ class Article:
         self.lien = lien
         self.source = source
 
-        def __str__(self):
+        def __repr__(self):
             return f"Source: {self.source}, Titre: {self.titre}, Lien: {self.lien}\n"
