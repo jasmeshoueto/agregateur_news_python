@@ -37,7 +37,7 @@ else:
     print("Aucun article trouvé pour ces mots-clés.")
 
   
-
+# 7. Sauvegarde
 storage = Storage("data/resultats.json", format="json")
 storage.sauvegarder(resultats)
 
