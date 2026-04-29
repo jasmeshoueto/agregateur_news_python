@@ -12,7 +12,9 @@ class Scraper:
         """"Collecte les articles du site via le flux RSS"""
         articles = []
         try:
-            response = requests.get(self.url, headers= {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}, timeout=60)
+            headers= {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            }
+            response = requests.get(self.url,timeout=60, headers=headers)
             soup = BeautifulSoup(response.content, "xml")
             items=soup.find_all("item")
 
@@ -20,9 +22,11 @@ class Scraper:
                 titre = item.find("title")
                 lien = item.find("guid")
                 if titre and lien:
+                    titre_propre = " ".join(titre.get_text(strip=True).split())
+                    lien_propre =" ".join(lien.get_text(strip=True).split())
                     articles.append(Article(
-                        titre.get_text(strip=True),
-                        lien.get_text(strip=True),
+                        titre_propre,
+                        lien_propre,
                         self.nom_source
                     ))
             return articles

@@ -21,12 +21,14 @@ class Aggregator:
         return self.articles
 
     def filtrer(self):
+        import re
         """Retourne les articles contenant un mot-clé."""
         resultats = []
         for article in self.articles:
-            titre_lower = article.titre.lower()
+            titre_lower = re.sub(r'[^a-z0-9\s]', '', article.titre.lower())
             for mot in self.mots_cles:
-                if mot in titre_lower:
+                mot_propre = re.sub(r'[^a-z0-9\s]', '', mot.lower())
+                if mot_propre in titre_lower:
                     resultats.append(article)
                     break
         return resultats

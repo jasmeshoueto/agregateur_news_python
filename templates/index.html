@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Agrégateur de News</title>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: 40px auto; padding: 20px; }
+        h1 { color: #2E5797; }
+        input[type="text"] { width: 60%; padding: 10px; font-size: 16px; }
+        button { padding: 10px 20px; background: #2E5797; color: white; border: none; cursor: pointer; font-size: 16px; }
+        .article { border-left: 4px solid #2E5797; padding: 10px; margin: 15px 0; background: #f5f5f5; }
+        .source { color: #888; font-size: 13px; }
+        a { color: #2E5797; }
+    </style>
+</head>
+<body>
+    <h1>Agrégateur de News Personnalisé</h1>
+    <form method="POST">
+        <input type="text" name="mots_cles" placeholder="Entrez vos mots-clés..." value="{{ mots_cles }}">
+        <button type="submit">Rechercher</button>
+    </form>
+
+    {% if resultats %}
+        <h3>{{ resultats|length }} article(s) trouvé(s) :</h3>
+        {% for article in resultats %}
+        <div class="article">
+            <p><strong>{{ article.titre }}</strong></p>
+            <p class="source">Source : {{ article.source }}</p>
+            <a href="{{ article.lien }}" target="_blank">Lire l'article</a>
+        </div>
+        {% endfor %}
+    {% elif request.method == "POST" %}
+        <p>Aucun article trouvé pour ces mots-clés.</p>
+    {% endif %}
+</body>
+</html>

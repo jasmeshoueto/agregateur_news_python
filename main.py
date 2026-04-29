@@ -11,10 +11,9 @@ mots_cles = [mot.strip() for mot in mots_cles.split(",") ]
 aggregator = Aggregator(mots_cles)
 
 # 3. Ajout des sources
-aggregator.ajouter_source("Le Monde", "https://www.lemonde.fr/rss/une.xml")
-aggregator.ajouter_source("Le Figaro", "https://www.lefigaro.fr/rss/figaro_actualites.xml")
 aggregator.ajouter_source("France 24", "https://www.france24.com/fr/rss")
 aggregator.ajouter_source("BBC News", "https://feeds.bbci.co.uk/news/rss.xml")
+aggregator.ajouter_source("RFI Afrique", "https://www.rfi.fr/fr/afrique/rss")
 
 
 
