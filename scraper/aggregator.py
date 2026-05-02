@@ -26,9 +26,10 @@ class Aggregator:
         resultats = []
         for article in self.articles:
             titre_lower = re.sub(r'[^a-z0-9\s]', '', article.titre.lower())
+            resume_lower = re.sub(r'[^a-z0-9\s]', '', article.resume.lower())
             for mot in self.mots_cles:
                 mot_propre = re.sub(r'[^a-z0-9\s]', '', mot.lower())
-                if mot_propre in titre_lower:
+                if mot_propre in titre_lower or mot_propre in resume_lower:
                     resultats.append(article)
                     break
         return resultats

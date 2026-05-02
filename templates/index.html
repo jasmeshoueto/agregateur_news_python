@@ -25,8 +25,11 @@
         {% for article in resultats %}
         <div class="article">
             <p><strong>{{ article.titre }}</strong></p>
+            {% if article.resume %}
+                <p class="summary"><strong>Résumé :</strong> {{ article.resume }}</p>
+            {% endif %}
             <p class="source">Source : {{ article.source }}</p>
-            <a href="{{ article.lien }}" target="_blank">Lire l'article</a>
+            <a href="{{ article.lien }}" target="_blank">Lire article</a>
         </div>
         {% endfor %}
     {% elif request.method == "POST" %}

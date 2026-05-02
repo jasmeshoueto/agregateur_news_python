@@ -24,13 +24,32 @@ aggregator.collecter_tous()
 # 5. Filtrage
 resultats = aggregator.filtrer()
 
+# Charger les anciens articles sauvegardés
+storage = Storage("data/resultats.json", format="json")
+anciens = storage.charger_json()
+
+# Filtrer aussi les anciens
+agg_anciens = Aggregator(mots_cles)
+agg_anciens.articles = anciens
+anciens_filtres = agg_anciens.filtrer()
+
+# Combiner nouveaux et anciens
+tous = resultats + [a for a in anciens_filtres if a.lien not in [r.lien for r in resultats]]
+
+# Afficher
+for article in tous:
+    print(f"[{article.source}] {article.titre}")
+    print(f"Lien : {article.lien}")
+    print(f"Résumé : {article.resume}\n")
+    print("-" * 50)
+
 
 
 # 6. Affichage
 if resultats:
     print(f"{len(resultats)} article(s) trouvé(s):\n")
     for article in resultats :
-        print(f"Source: {article.source}, Titre: {article.titre}, Lien: {article.lien}\n")
+        print(f"Source: {article.source}, Titre: {article.titre}, Lien: {article.lien}, Resume: {article.resume}\n")
         print("-" * 50)
 else:
     print("Aucun article trouvé pour ces mots-clés.")
