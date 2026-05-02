@@ -14,7 +14,10 @@ def index():
 
         agg = Aggregator(mots_liste)
         agg.ajouter_source("BBC News", "https://feeds.bbci.co.uk/news/rss.xml")
-        agg.ajouter_source("France 24", "https://www.france24.com/fr/rss")
+        agg.ajouter_source("France 24", "https://www.france24.com/fr/france/rss")
+        agg.ajouter_source("RFI", "https://www.rfi.fr/fr/rss")
+        agg.ajouter_source("Euronews", "https://fr.euronews.com/rss")
+
         agg.collecter_tous()
         resultats = agg.filtrer()
 

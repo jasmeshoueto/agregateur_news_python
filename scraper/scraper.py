@@ -17,24 +17,22 @@ class Scraper:
             soup = BeautifulSoup(response.content, "xml")
             items = soup.find_all("item")
             for item in items:
-                titre_tag = item.find("title")
-                resume_tag = item.find("description") 
+                titre = item.find("title")
+                description = item.find("description")
                 guid = item.find("guid")
-                lien_tag = item.find("link")
-                if titre_tag :
-                    titre = titre_tag.get_text(strip=True) if titre_tag else ""
-                    resume = BeautifulSoup(resume_tag.get_text(), "html.parser").get_text(strip=True) if resume_tag else ""
-                    if lien_tag and lien_tag.next_sibling:
-                        lien =str(lien_tag.next_sibling).strip()
-                    elif guid:
-                        lien = guid.get_text(strip=True).split("#")[0]
+                if titre and guid:
+                    titre_propre = " ".join(titre.get_text(strip=True).split())
+                    description_propre = " ".join(description.get_text(strip=True).split()) if description else ""
+                    guid_text = guid.get_text(strip=True)
+                    if guid_text.startswith("http"):
+                        lien_propre = guid_text
                     else:
-                        lien = ""
+                        lien_propre = "https://www.france24.com/fr/" + guid_text
                     articles.append(Article(
-                        titre,
-                        lien,
-                        self.nom_source,    
-                        resume
+                        titre_propre,
+                        lien_propre,
+                        self.nom_source,
+                        description_propre
                     ))
         except requests.exceptions.RequestException as e:
             print(f"Erreur sur {self.nom_source} : {e}")
